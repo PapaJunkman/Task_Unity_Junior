@@ -13,13 +13,19 @@ public class Home : MonoBehaviour
 
     private void Update()
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Alarm") && _audioSources[1].volume < 1)
+        if (_audioSources[0].isPlaying && _audioSources[1].volume < 1)
         {
             _audioSources[1].volume += Time.deltaTime;
         }
-        else
+
+        if(_audioSources[0].isPlaying == false && _audioSources[1].volume > 0)
         {
             _audioSources[1].volume -= Time.deltaTime;
+
+            if (_audioSources[1].isPlaying && _audioSources[1].volume <= 0)
+            {
+                _audioSources[1].Stop();
+            }
         }
     }
 
