@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 356843630}
   - component: {fileID: 356843631}
   - component: {fileID: 356843632}
+  - component: {fileID: 356843633}
   m_Layer: 0
   m_Name: Alarm
   m_TagString: Untagged
@@ -506,6 +507,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &356843633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356843626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7577ed4765d774baba80d18594d36f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &502767471
 GameObject:
   m_ObjectHideFlags: 0
