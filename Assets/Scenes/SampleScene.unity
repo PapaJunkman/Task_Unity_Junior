@@ -1083,6 +1083,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9058e720531baff4191f40e8a0095bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 1346899648}
+  _targetPosition: {fileID: 571744179}
   _speed: 2
 --- !u!1 &1862279474
 GameObject:

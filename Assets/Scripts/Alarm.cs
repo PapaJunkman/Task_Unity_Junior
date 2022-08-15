@@ -1,9 +1,15 @@
+using System.Collections;
 using UnityEngine;
+
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 
 public class Alarm : MonoBehaviour
 {
     private Animator _animator;
     private AudioSource[] _audioSources;
+
+    private const string Entered = "Entered";
 
     private void Start()
     {
@@ -11,38 +17,49 @@ public class Alarm : MonoBehaviour
         _audioSources = GetComponents<AudioSource>();
     }
 
-    private void Update()
+    private IEnumerator IncreaseSound()
     {
-        if (_audioSources[0].isPlaying && _audioSources[1].volume < 1)
+        while (_audioSources[1].volume < 1)
         {
             _audioSources[1].volume += Time.deltaTime;
-        }
 
-        if (_audioSources[0].isPlaying == false && _audioSources[1].volume > 0)
+            yield return null;
+        }
+    }
+
+    private IEnumerator ReduceSound()
+    {
+        while (_audioSources[1].volume > 0)
         {
             _audioSources[1].volume -= Time.deltaTime;
 
-            if (_audioSources[1].isPlaying && _audioSources[1].volume <= 0)
-            {
-                _audioSources[1].Stop();
-            }
+            yield return null;
         }
+
+        _audioSources[1].Stop();
+
+        StopCoroutine(ReduceSound());
     }
 
     public void TurnOnAlarm()
     {
-        _animator.SetBool("Alarm", true);
+        _animator.SetBool(Entered, true);
 
         foreach (var audioSorce in _audioSources)
         {
             audioSorce.Play();
         }
+
+        StartCoroutine(IncreaseSound());
     }
 
     public void TurnOffAlarm()
     {
-        _animator.SetBool("Alarm", false);
+        _animator.SetBool(Entered, false);
 
         _audioSources[0].Stop();
+
+        StopCoroutine(IncreaseSound());
+        StartCoroutine(ReduceSound());
     }
 }

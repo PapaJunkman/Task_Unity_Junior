@@ -2,25 +2,26 @@ using UnityEngine;
 
 public class ThiefMover : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Transform _targetPosition;
     [SerializeField] private int _speed;
 
     private bool _isTargetReach;
     private Vector3 _startPosition;
-    private Transform _targetPosition;
     private SpriteRenderer _direction;
-    private Animator _animator;
+
+    private const string Home = "Home";
+    private const string Walk = "Walk";
 
     private void Start()
     {
-        _targetPosition = GameObject.Find("Target").transform;
         _startPosition = GetComponent<Transform>().position;
         _direction = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(Walk))
         {
             if (_isTargetReach)
             {
@@ -51,7 +52,7 @@ public class ThiefMover : MonoBehaviour
     {
         if (collision.TryGetComponent(out Home home))
         {
-            _animator.SetTrigger("Home");
+            _animator.SetTrigger(Home);
         }
     }
 }

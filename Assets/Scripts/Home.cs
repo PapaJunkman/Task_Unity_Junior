@@ -11,7 +11,7 @@ public class Home : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<ThiefMover>(out ThiefMover thef))
+        if(collision.TryGetComponent<ThiefMover>(out ThiefMover thief))
         {
             _alarm.TurnOnAlarm();
         }
@@ -19,7 +19,7 @@ public class Home : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<ThiefMover>(out ThiefMover thef))
+        if (collision.TryGetComponent<ThiefMover>(out ThiefMover thief))
         {
             _alarm.TurnOffAlarm();
         }
