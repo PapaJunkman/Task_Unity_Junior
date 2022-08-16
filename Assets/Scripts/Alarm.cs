@@ -40,11 +40,9 @@ public class Alarm : MonoBehaviour
                     isWork = false;
                 }
             }
-            
+
             yield return null;
         }
-
-        StopCoroutine(ChengesVolume());
     }
 
     public void TurnOnAlarm()
@@ -57,6 +55,7 @@ public class Alarm : MonoBehaviour
         }
 
         StartCoroutine(ChengesVolume());
+        StopCoroutine(ChengesVolume());
     }
 
     public void TurnOffAlarm()
@@ -66,5 +65,6 @@ public class Alarm : MonoBehaviour
         _audioSources[0].Stop();
 
         StartCoroutine(ChengesVolume());
+        StopCoroutine(ChengesVolume());
     }
 }

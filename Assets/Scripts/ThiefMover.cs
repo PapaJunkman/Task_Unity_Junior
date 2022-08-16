@@ -6,7 +6,6 @@ public class ThiefMover : MonoBehaviour
     [SerializeField] private Transform _targetPosition;
     [SerializeField] private int _speed;
 
-    private bool _isTargetReach;
     private Vector3 _startPosition;
     private SpriteRenderer _direction;
 
@@ -15,7 +14,7 @@ public class ThiefMover : MonoBehaviour
 
     private void Start()
     {
-        _startPosition = GetComponent<Transform>().position;
+        _startPosition = transform.position;
         _direction = GetComponent<SpriteRenderer>();
     }
 
@@ -23,27 +22,17 @@ public class ThiefMover : MonoBehaviour
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName(Walk))
         {
-            if (_isTargetReach)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, _startPosition, _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _targetPosition.position, _speed * Time.deltaTime);
 
-                if (transform.position == _startPosition)
-                {
+            if (transform.position == _targetPosition.position)
+            {
+                _targetPosition.position = _startPosition;
+                _startPosition = transform.position;
+
+                if (_direction.flipX)
                     _direction.flipX = false;
-
-                    _isTargetReach = false;
-                }
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, _targetPosition.position, _speed * Time.deltaTime);
-
-                if (transform.position == _targetPosition.position)
-                {
+                else
                     _direction.flipX = true;
-
-                    _isTargetReach = true;
-                }
             }
         }
     }
