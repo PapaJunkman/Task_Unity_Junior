@@ -17,28 +17,34 @@ public class Alarm : MonoBehaviour
         _audioSources = GetComponents<AudioSource>();
     }
 
-    private IEnumerator IncreaseSound()
+    private IEnumerator ChengesVolume()
     {
-        while (_audioSources[1].volume < 1)
-        {
-            _audioSources[1].volume += Time.deltaTime;
+        bool isWork = true;
 
+        while (isWork)
+        {
+            if (_audioSources[0].isPlaying)
+            {
+                _audioSources[1].volume += Time.deltaTime;
+
+                if (_audioSources[1].volume == 1)
+                    isWork = false;
+            }
+            else if (_audioSources[0].isPlaying  == false)
+            {
+                _audioSources[1].volume -= Time.deltaTime;
+
+                if (_audioSources[1].volume == 0)
+                {
+                    _audioSources[1].Stop();
+                    isWork = false;
+                }
+            }
+            
             yield return null;
         }
-    }
 
-    private IEnumerator ReduceSound()
-    {
-        while (_audioSources[1].volume > 0)
-        {
-            _audioSources[1].volume -= Time.deltaTime;
-
-            yield return null;
-        }
-
-        _audioSources[1].Stop();
-
-        StopCoroutine(ReduceSound());
+        StopCoroutine(ChengesVolume());
     }
 
     public void TurnOnAlarm()
@@ -50,7 +56,7 @@ public class Alarm : MonoBehaviour
             audioSorce.Play();
         }
 
-        StartCoroutine(IncreaseSound());
+        StartCoroutine(ChengesVolume());
     }
 
     public void TurnOffAlarm()
@@ -59,7 +65,6 @@ public class Alarm : MonoBehaviour
 
         _audioSources[0].Stop();
 
-        StopCoroutine(IncreaseSound());
-        StartCoroutine(ReduceSound());
+        StartCoroutine(ChengesVolume());
     }
 }
