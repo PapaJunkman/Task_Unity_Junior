@@ -519,7 +519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7577ed4765d774baba80d18594d36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitChengeVolume: 0.002
+  _unitChangeVolume: 0.001
 --- !u!1 &502767471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,6 +1086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1346899648}
   _targetPosition: {fileID: 571744179}
+  _spriteRenderer: {fileID: 1346899649}
   _speed: 2
 --- !u!1 &1862279474
 GameObject:

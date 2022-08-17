@@ -16,7 +16,7 @@ public class Home : MonoBehaviour
         {
             _isEntered = true;
 
-            _alarm.SetAlarmStat(_isEntered);
+            _alarm.SetAlarmState(_isEntered);
         }
     }
 
@@ -26,7 +26,7 @@ public class Home : MonoBehaviour
         {
             _isEntered = false;
 
-            _alarm.SetAlarmStat(_isEntered);
+            _alarm.SetAlarmState(_isEntered);
         }
     }
 }

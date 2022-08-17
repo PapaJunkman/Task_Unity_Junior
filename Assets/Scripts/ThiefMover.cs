@@ -4,10 +4,11 @@ public class ThiefMover : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private Transform _targetPosition;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private int _speed;
 
     private Vector3 _startPosition;
-    private SpriteRenderer _direction;
+    private bool _direction;
 
     private const string Home = "Home";
     private const string Walk = "Walk";
@@ -15,7 +16,7 @@ public class ThiefMover : MonoBehaviour
     private void Start()
     {
         _startPosition = transform.position;
-        _direction = GetComponent<SpriteRenderer>();
+        _direction = _spriteRenderer.flipX;
     }
 
     private void Update()
@@ -29,10 +30,10 @@ public class ThiefMover : MonoBehaviour
                 _targetPosition.position = _startPosition;
                 _startPosition = transform.position;
 
-                if (_direction.flipX)
-                    _direction.flipX = false;
+                if (_direction)
+                    _spriteRenderer.flipX = false;
                 else
-                    _direction.flipX = true;
+                    _spriteRenderer.flipX = true;
             }
         }
     }

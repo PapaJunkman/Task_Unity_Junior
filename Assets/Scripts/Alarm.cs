@@ -11,6 +11,7 @@ public class Alarm : MonoBehaviour
     private float _currentValueVolume;
     private Animator _animator;
     private AudioSource[] _audioSources;
+    private Coroutine _changesVolume;
 
     private const string Entered = "Entered";
 
@@ -37,13 +38,14 @@ public class Alarm : MonoBehaviour
 
         if (_audioSources[0].isPlaying == false)
             _audioSources[1].Stop();
-
-        StopCoroutine(ChangesVolume(value));
     }
 
-    public void SetAlarmStat(bool isEntered)
+    public void SetAlarmState(bool isEntered)
     {
         _animator.SetBool(Entered, isEntered);
+
+        if (_changesVolume != null)
+            StopCoroutine(_changesVolume);
 
         if (isEntered)
         {
@@ -52,13 +54,13 @@ public class Alarm : MonoBehaviour
                 audioSorce.Play();
             }
 
-            StartCoroutine(ChangesVolume(_unitChangeVolume));
+            _changesVolume = StartCoroutine(ChangesVolume(_unitChangeVolume));
         }
         else
         {
             _audioSources[0].Stop();
 
-            StartCoroutine(ChangesVolume(-_unitChangeVolume));
+            _changesVolume = StartCoroutine(ChangesVolume(-_unitChangeVolume));
         }
     }
 }
