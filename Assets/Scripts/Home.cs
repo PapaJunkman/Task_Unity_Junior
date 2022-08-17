@@ -3,6 +3,7 @@ using UnityEngine;
 public class Home : MonoBehaviour
 {
     private Alarm _alarm;
+    private bool _isEntered;
 
     private void Start()
     {
@@ -13,7 +14,9 @@ public class Home : MonoBehaviour
     {
         if(collision.TryGetComponent<ThiefMover>(out ThiefMover thief))
         {
-            _alarm.TurnOnAlarm();
+            _isEntered = true;
+
+            _alarm.SetAlarmStat(_isEntered);
         }
     }
 
@@ -21,7 +24,9 @@ public class Home : MonoBehaviour
     {
         if (collision.TryGetComponent<ThiefMover>(out ThiefMover thief))
         {
-            _alarm.TurnOffAlarm();
+            _isEntered = false;
+
+            _alarm.SetAlarmStat(_isEntered);
         }
     }
 }

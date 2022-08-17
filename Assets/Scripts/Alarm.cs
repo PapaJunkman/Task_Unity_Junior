@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Alarm : MonoBehaviour
 {
+    [SerializeField] private float _unitChangeVolume;
+
+    private float _currentValueVolume;
     private Animator _animator;
     private AudioSource[] _audioSources;
 
@@ -17,54 +20,45 @@ public class Alarm : MonoBehaviour
         _audioSources = GetComponents<AudioSource>();
     }
 
-    private IEnumerator ChengesVolume()
+    private IEnumerator ChangesVolume(float value)
     {
         bool isWork = true;
 
         while (isWork)
         {
-            if (_audioSources[0].isPlaying)
-            {
-                _audioSources[1].volume += Time.deltaTime;
+            _currentValueVolume = _audioSources[1].volume;
+            _audioSources[1].volume += value;
 
-                if (_audioSources[1].volume == 1)
-                    isWork = false;
-            }
-            else if (_audioSources[0].isPlaying  == false)
-            {
-                _audioSources[1].volume -= Time.deltaTime;
-
-                if (_audioSources[1].volume == 0)
-                {
-                    _audioSources[1].Stop();
-                    isWork = false;
-                }
-            }
+            if (_audioSources[1].volume == _currentValueVolume)
+                isWork = false;
 
             yield return null;
         }
+
+        if (_audioSources[0].isPlaying == false)
+            _audioSources[1].Stop();
+
+        StopCoroutine(ChangesVolume(value));
     }
 
-    public void TurnOnAlarm()
+    public void SetAlarmStat(bool isEntered)
     {
-        _animator.SetBool(Entered, true);
+        _animator.SetBool(Entered, isEntered);
 
-        foreach (var audioSorce in _audioSources)
+        if (isEntered)
         {
-            audioSorce.Play();
+            foreach (var audioSorce in _audioSources)
+            {
+                audioSorce.Play();
+            }
+
+            StartCoroutine(ChangesVolume(_unitChangeVolume));
         }
+        else
+        {
+            _audioSources[0].Stop();
 
-        StartCoroutine(ChengesVolume());
-        StopCoroutine(ChengesVolume());
-    }
-
-    public void TurnOffAlarm()
-    {
-        _animator.SetBool(Entered, false);
-
-        _audioSources[0].Stop();
-
-        StartCoroutine(ChengesVolume());
-        StopCoroutine(ChengesVolume());
+            StartCoroutine(ChangesVolume(-_unitChangeVolume));
+        }
     }
 }
