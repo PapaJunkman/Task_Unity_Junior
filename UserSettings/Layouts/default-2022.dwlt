@@ -467,8 +467,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 26070000
-    m_LastClickedInstanceID: 1830
+    m_SelectedInstanceIDs: 805e0000
+    m_LastClickedInstanceID: 24192
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000a6930000865f0000965f0000
     m_RenameOverlay:

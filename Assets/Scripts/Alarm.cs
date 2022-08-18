@@ -7,13 +7,13 @@ public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _bell;
     [SerializeField] private AudioSource _siren;
+    [SerializeField] private float _unitChangeVolume;
 
     private Animator _animator;
     private Coroutine _changesVolume;
     private float _minValueVolume = 0;
     private float _maxValueVolume = 1;
-    private float _unitScale = 100;
-
+    
     private const string Entered = "Entered";
 
     private void Start()
@@ -21,16 +21,11 @@ public class Alarm : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private IEnumerator ChangesVolume(float targrtValue, float value)
+    private IEnumerator ChangesVolume(float targrtValue)
     {
-        bool isWork = true;
-
-        while (isWork)
+        while (_siren.volume != targrtValue)
         {
-            if (_siren.volume != targrtValue)
-                _siren.volume += value;
-            else
-                isWork = false;
+            _siren.volume = Mathf.MoveTowards(_siren.volume, targrtValue, _unitChangeVolume);
 
             yield return null;
         }
@@ -48,7 +43,7 @@ public class Alarm : MonoBehaviour
         if (_changesVolume != null)
             StopCoroutine(_changesVolume);
 
-        _changesVolume = StartCoroutine(ChangesVolume(_maxValueVolume, _maxValueVolume/_unitScale));
+        _changesVolume = StartCoroutine(ChangesVolume(_maxValueVolume));
     }
 
     public void TurnOffAlarm()
@@ -59,6 +54,6 @@ public class Alarm : MonoBehaviour
         if (_changesVolume != null)
             StopCoroutine(_changesVolume);
 
-        _changesVolume = StartCoroutine(ChangesVolume(_minValueVolume, -(_maxValueVolume / _unitScale)));
+        _changesVolume = StartCoroutine(ChangesVolume(_minValueVolume));
     }
 }

@@ -521,6 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bell: {fileID: 356843631}
   _siren: {fileID: 356843632}
+  _unitChangeVolume: 0.002
 --- !u!1 &502767471
 GameObject:
   m_ObjectHideFlags: 0
