@@ -3,23 +3,25 @@ using UnityEngine;
 
 public class SpawnSetter : MonoBehaviour
 {
-    private float _spawnTime = 2f;
-    private Spawner[] _spawners;
+    [SerializeField] private GameObject _enemy;
+    [SerializeField] private Transform[] _spawners;
 
+    private float _spawnTime = 2f;
+    
     private void Start()
     {
-        _spawners = gameObject.GetComponentsInChildren<Spawner>();
-
         StartCoroutine(SpawnEnemy());
     }
 
     private IEnumerator SpawnEnemy()
     {
+        var waitForSeconds = new WaitForSeconds(_spawnTime);
+
         foreach (var spawner in _spawners)
         {
-            spawner.SpawnEnemy();
+            Instantiate(_enemy, spawner.position, Quaternion.identity);
 
-            yield return new WaitForSeconds(_spawnTime);
+            yield return waitForSeconds;
         }
     }
 }
