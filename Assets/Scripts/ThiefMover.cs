@@ -8,7 +8,7 @@ public class ThiefMover : MonoBehaviour
     [SerializeField] private int _speed;
 
     private Vector3 _startPosition;
-    private bool _direction;
+    private bool _direction = true;
 
     private const string Home = "Home";
     private const string Walk = "Walk";
@@ -16,7 +16,6 @@ public class ThiefMover : MonoBehaviour
     private void Start()
     {
         _startPosition = transform.position;
-        _direction = _spriteRenderer.flipX;
     }
 
     private void Update()
@@ -29,11 +28,8 @@ public class ThiefMover : MonoBehaviour
             {
                 _targetPosition.position = _startPosition;
                 _startPosition = transform.position;
-
-                if (_direction)
-                    _spriteRenderer.flipX = false;
-                else
-                    _spriteRenderer.flipX = true;
+                
+                _spriteRenderer.flipX = (_spriteRenderer.flipX != _direction);
             }
         }
     }

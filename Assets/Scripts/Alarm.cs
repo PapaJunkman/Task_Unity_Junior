@@ -2,65 +2,63 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(AudioSource))]
 
 public class Alarm : MonoBehaviour
 {
-    [SerializeField] private float _unitChangeVolume;
+    [SerializeField] private AudioSource _bell;
+    [SerializeField] private AudioSource _siren;
 
-    private float _currentValueVolume;
     private Animator _animator;
-    private AudioSource[] _audioSources;
     private Coroutine _changesVolume;
+    private float _minValueVolume = 0;
+    private float _maxValueVolume = 1;
+    private float _unitScale = 100;
 
     private const string Entered = "Entered";
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _audioSources = GetComponents<AudioSource>();
     }
 
-    private IEnumerator ChangesVolume(float value)
+    private IEnumerator ChangesVolume(float targrtValue, float value)
     {
         bool isWork = true;
 
         while (isWork)
         {
-            _currentValueVolume = _audioSources[1].volume;
-            _audioSources[1].volume += value;
-
-            if (_audioSources[1].volume == _currentValueVolume)
+            if (_siren.volume != targrtValue)
+                _siren.volume += value;
+            else
                 isWork = false;
 
             yield return null;
         }
 
-        if (_audioSources[0].isPlaying == false)
-            _audioSources[1].Stop();
+        if (_bell.isPlaying == false)
+            _siren.Stop();
     }
 
-    public void SetAlarmState(bool isEntered)
+    public void TurnOnAlarm()
     {
-        _animator.SetBool(Entered, isEntered);
+        _animator.SetBool(Entered, true);
+        _bell.Play();
+        _siren.Play();
 
         if (_changesVolume != null)
             StopCoroutine(_changesVolume);
 
-        if (isEntered)
-        {
-            foreach (var audioSorce in _audioSources)
-            {
-                audioSorce.Play();
-            }
+        _changesVolume = StartCoroutine(ChangesVolume(_maxValueVolume, _maxValueVolume/_unitScale));
+    }
 
-            _changesVolume = StartCoroutine(ChangesVolume(_unitChangeVolume));
-        }
-        else
-        {
-            _audioSources[0].Stop();
+    public void TurnOffAlarm()
+    {
+        _animator.SetBool(Entered, false);
+        _bell.Stop();
 
-            _changesVolume = StartCoroutine(ChangesVolume(-_unitChangeVolume));
-        }
+        if (_changesVolume != null)
+            StopCoroutine(_changesVolume);
+
+        _changesVolume = StartCoroutine(ChangesVolume(_minValueVolume, -(_maxValueVolume / _unitScale)));
     }
 }
