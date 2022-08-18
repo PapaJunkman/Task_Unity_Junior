@@ -949,7 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb3acfdf5b7048438611e62cb74d6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 7640725096719415322, guid: b1b38205631a51941a962d726a9bd80e, type: 3}
+  _enemy: {fileID: 8590432210928539341, guid: b1b38205631a51941a962d726a9bd80e, type: 3}
   _spawners:
   - {fileID: 1788728939}
   - {fileID: 2081038806}
